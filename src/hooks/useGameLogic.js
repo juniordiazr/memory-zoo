@@ -56,7 +56,7 @@ export const useGameLogic = (difficulty) => {
   // Handle card flip logic
   const flipCard = useCallback((cardId) => {
     setGameState(prevState => {
-      const { cards, flippedCards, moves, gameStarted, gameComplete } = prevState;
+      const { cards, flippedCards, moves, gameComplete } = prevState;
       
       // Don't allow flips if game is complete or too many cards are flipped
       if (gameComplete || flippedCards.length >= 2) return prevState;
@@ -71,7 +71,7 @@ export const useGameLogic = (difficulty) => {
       );
       
       const newFlippedCards = [...flippedCards, card];
-      const newGameStarted = !gameStarted;
+      const newGameStarted = true;
 
       // Check for match when 2 cards are flipped
       if (newFlippedCards.length === 2) {

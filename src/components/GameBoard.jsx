@@ -10,10 +10,13 @@ const GameBoard = ({ cards, onCardClick, difficulty, isDisabled, isShuffling }) 
     const updateSize = () => {
       // Use the document position so scrolling does not resize the board.
       const top = board.getBoundingClientRect().top + window.scrollY;
-      setAvailableHeight(Math.max(320, window.innerHeight - top - 24));
+      // Reserve the complete footer, including its margin and decorative stripe.
+      const footer = document.querySelector('.zoo-footer');
+      const footerSpace = footer ? footer.getBoundingClientRect().height + parseFloat(getComputedStyle(footer).marginTop || '0') : 0;
+      setAvailableHeight(Math.max(120, window.innerHeight - top - footerSpace - 8));
     };
     const observer = new ResizeObserver(updateSize);
-    [board.parentElement, ...document.querySelectorAll('.zoo-header, .game-header, .game-controls')]
+    [board.parentElement, ...document.querySelectorAll('.zoo-header, .game-header, .game-controls, .zoo-footer')]
       .forEach(element => observer.observe(element));
     window.addEventListener('resize', updateSize);
     updateSize();

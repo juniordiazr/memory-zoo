@@ -1,102 +1,83 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GameBoard from './components/GameBoard';
 import GameControls from './components/GameControls';
-import DifficultySelector from './components/DifficultySelector';
+import PlayerForm from './components/PlayerForm';
+import Ranking from './components/Ranking';
+import { ZooHeader, ZooFooter } from './components/ZooShell';
 import { useTimer } from './hooks/useTimer';
-import { useLocalStorage } from './hooks/useLocalStorage';
 import { useGameLogic } from './hooks/useGameLogic';
 import { DIFFICULTY_LEVELS } from './utils/gameConfig';
+import { addResult, readRanking, saveRanking } from './utils/ranking';
 import './App.css';
 import './Zoo.css';
-import { ZooHeader, ZooFooter } from './components/ZooShell';
+import './PlayerFlow.css';
 
-const MemoryCardGame = () => {
-  const [difficulty, setDifficulty] = useState(DIFFICULTY_LEVELS[1]); // Default to Medium
-  const [bestScores, setBestScores] = useLocalStorage('memory-game-scores', {});
-  const [isShuffling, setIsShuffling] = useState(false);
-  
-  const gameLogic = useGameLogic(difficulty);
-  const timer = useTimer(gameLogic.gameStarted, gameLogic.gameComplete);
-  
-  const currentBestScore = bestScores[difficulty.id];
+const difficulty = DIFFICULTY_LEVELS[1];
 
-  // Handle game completion and score tracking
+function GameSession({ player, onFinish, onRestart }) {
+  const game = useGameLogic(difficulty);
+  const timer = useTimer(game.gameStarted, game.gameComplete);
+  const finished = useRef(false);
+
   useEffect(() => {
-    if (gameLogic.gameComplete && gameLogic.moves > 0) {
-      const currentScore = {
-        moves: gameLogic.moves,
-        time: timer.seconds,
-        difficulty: difficulty.name
-      };
-
-      // Check if this is a new best score
-      const isNewBest = !currentBestScore || 
-        gameLogic.moves < currentBestScore.moves ||
-        (gameLogic.moves === currentBestScore.moves && timer.seconds < currentBestScore.time);
-
-      if (isNewBest) {
-        setBestScores(prev => ({
-          ...prev,
-          [difficulty.id]: currentScore
-        }));
-      }
+    if ((game.gameComplete || timer.seconds >= 60) && !finished.current) {
+      finished.current = true;
+      onFinish({ completed: game.gameComplete, timedOut: !game.gameComplete, time: Math.min(timer.seconds, 60), moves: game.moves });
     }
-  }, [gameLogic.gameComplete, gameLogic.moves, timer.seconds, difficulty, currentBestScore, setBestScores]);
+  }, [game.gameComplete, game.moves, timer.seconds, onFinish]);
 
-  const handleDifficultyChange = (newDifficulty) => {
-    setIsShuffling(true);
-    setTimeout(() => {
-      setDifficulty(newDifficulty);
-      timer.reset();
-      setIsShuffling(false);
-    }, 600); // Match shuffle animation duration
+  const endGame = () => {
+    if (finished.current) return;
+    finished.current = true;
+    onFinish({ completed: game.gameComplete, time: timer.seconds, moves: game.moves });
   };
 
-  const handleRestart = () => {
-    setIsShuffling(true);
-    setTimeout(() => {
-      gameLogic.resetGame();
-      timer.reset();
-      setIsShuffling(false);
-    }, 600); // Match shuffle animation duration
-  };
+  return <>
+    <p className="player-greeting">¡A jugar, {player.name}! Tienes 1 minuto desde la primera carta.</p>
+    <GameControls moves={game.moves} seconds={timer.seconds} formatTime={timer.formatTime}
+      onRestart={onRestart} onGameOver={endGame} gameComplete={game.gameComplete} />
+    <GameBoard cards={game.cards} onCardClick={game.flipCard} difficulty={difficulty}
+      isDisabled={game.flippedCards.length >= 2 || game.gameComplete || timer.seconds >= 60} isShuffling={false} />
+  </>;
+}
 
-  const isDisabled = gameLogic.flippedCards.length >= 2 || gameLogic.gameComplete || isShuffling;
+export default function MemoryCardGame() {
+  const [screen, setScreen] = useState('registration');
+  const [player, setPlayer] = useState(null);
+  const [sessionId, setSessionId] = useState(0);
+  const [ranking, setRanking] = useState(readRanking);
+  const [result, setResult] = useState(null);
+  const [storageError, setStorageError] = useState(false);
+
+  const start = () => {
+    setSessionId(id => id + 1);
+    setScreen('game');
+  };
+  const finish = outcome => {
+    const entry = { ...outcome, name: player.name, playerId: player.email };
+    if (outcome.completed) {
+      const updated = addResult(ranking, entry);
+      setRanking(updated);
+      setStorageError(!saveRanking(updated));
+    }
+    setResult(entry);
+    setScreen('ranking');
+  };
 
   return (
-    <div className="memory-game">
+    <div className={`memory-game ${screen === 'registration' ? 'registration-screen' : screen === 'game' ? 'game-screen' : ''}`}>
       <ZooHeader />
       <header className="game-header">
         <h1>Memory Zoo</h1>
         <p>Encuentra todas las parejas y disfruta un momento Zoo.</p>
       </header>
-
       <main id="juego" className="game-main">
-        <DifficultySelector 
-          currentDifficulty={difficulty}
-          onDifficultyChange={handleDifficultyChange}
-        />
-        
-        <GameControls
-          moves={gameLogic.moves}
-          seconds={timer.seconds}
-          formatTime={timer.formatTime}
-          onRestart={handleRestart}
-          gameComplete={gameLogic.gameComplete}
-          bestScore={currentBestScore}
-        />
-
-        <GameBoard
-          cards={gameLogic.cards}
-          onCardClick={gameLogic.flipCard}
-          difficulty={difficulty}
-          isDisabled={isDisabled}
-          isShuffling={isShuffling}
-        />
+        {screen === 'registration' && <PlayerForm onPlay={details => { setPlayer(details); start(); }} />}
+        {screen === 'game' && <GameSession key={sessionId} player={player} onFinish={finish} onRestart={start} />}
+        {screen === 'ranking' && <Ranking entries={ranking} result={result} storageError={storageError}
+          onPlayAgain={start} onNewPlayer={() => { setPlayer(null); setScreen('registration'); }} />}
       </main>
       <ZooFooter />
     </div>
   );
-};
-
-export default MemoryCardGame;
+}

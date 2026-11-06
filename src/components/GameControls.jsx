@@ -32,7 +32,7 @@ const BestScore = ({ bestScore }) => {
   );
 };
 
-const GameControls = ({ moves, seconds, formatTime, onRestart, gameComplete, bestScore }) => (
+const GameControls = ({ moves, seconds, formatTime, onRestart, onGameOver, gameComplete, bestScore }) => (
   <div className="game-controls">
     <div className="game-stats">
       <MoveCounter moves={moves} />
@@ -46,6 +46,7 @@ const GameControls = ({ moves, seconds, formatTime, onRestart, gameComplete, bes
       </div>
     )}
     
+    <div className="game-actions">
     <button 
       className="restart-btn"
       onClick={onRestart}
@@ -54,6 +55,8 @@ const GameControls = ({ moves, seconds, formatTime, onRestart, gameComplete, bes
       <RotateCcw size={20} />
       Restart Game
     </button>
+    <button className="game-over-btn" onClick={onGameOver}>Game Over</button>
+    </div>
   </div>
 );
 

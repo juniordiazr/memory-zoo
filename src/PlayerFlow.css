@@ -1,0 +1,122 @@
+.zoo-panel { width:100%; max-width:540px; padding:32px; border:1px solid var(--mint); border-radius:20px; background:#fff; }
+.zoo-panel h2 { margin:0 0 16px; font:400 28px/1.3 Lora,Georgia,serif; }
+.zoo-panel > p { margin:0 0 24px; line-height:1.6; }
+.player-field { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.player-field label { font-size:14px; font-weight:700; }
+.player-field input { width:100%; border:1px solid var(--mint); border-radius:10px; padding:14px; font:inherit; color:var(--ink); background:#fff; }
+.player-field input[aria-invalid="true"] { border-color:#a12d42; }
+.player-field input:focus-visible,.pink-btn:focus-visible,.outline-btn:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
+.field-error { color:#a12d42; font-size:13px; line-height:1.5; margin:0; }
+.player-note { font-size:13px; line-height:1.6; color:#76645b; }
+.pink-btn,.outline-btn { border-radius:28px; padding:12px 24px; font:700 14px/1.4 Inter,Arial,sans-serif; min-height:46px; cursor:pointer; }
+.pink-btn { border:1px solid var(--pink); background:var(--pink); color:var(--ink); }
+.pink-btn:hover:enabled { background:#e6a8b1; }
+.pink-btn:disabled { background:#eee; border-color:#ddd; color:#777; cursor:not-allowed; }
+.play-btn { width:100%; margin-top:12px; }
+.outline-btn { border:1px solid var(--ink); background:#fff; color:var(--ink); }
+.outline-btn:hover { background:var(--softmint); }
+.game-actions { display:flex; align-items:center; justify-content:center; gap:12px; }
+.game-actions .restart-btn { margin:0; }
+.game-over-btn { background:var(--pink); border:1px solid var(--pink); color:var(--ink); border-radius:28px; padding:12px 24px; font-weight:700; min-height:46px; }
+.game-over-btn:hover { background:#e6a8b1; }
+.player-greeting { margin:0; text-align:center; }
+.ranking-panel { max-width:760px; }
+.ranking-scroll { overflow-x:auto; }
+.ranking-table { border-collapse:collapse; width:100%; text-align:left; font-size:14px; }
+.ranking-table caption { text-align:left; font-weight:700; margin-bottom:12px; }
+.ranking-table th,.ranking-table td { padding:14px 10px; border-bottom:1px solid var(--mint); }
+.ranking-table thead { background:var(--softmint); }
+.ranking-table tbody th { overflow-wrap:anywhere; }
+.current-player { background:#f8e8e9; }
+.ranking-empty { border-radius:12px; padding:24px; background:var(--softmint); }
+.ranking-actions { margin-top:28px; flex-wrap:wrap; }
+@media(max-width:600px) {
+ .zoo-panel { padding:24px 18px; }
+ .game-actions { gap:8px; }
+ .game-actions .restart-btn,.game-over-btn { padding:12px; font-size:13px; }
+ .ranking-table th,.ranking-table td { padding:12px 6px; font-size:12px; }
+}
+
+.zoo-panel[aria-labelledby="welcome-title"] { background: #f8e8e9; }
+
+
+/* Keep the complete welcome page visible on typical laptop and mobile screens. */
+.registration-screen { min-height:100dvh; }
+.registration-screen > * { flex-shrink:0; }
+.registration-screen .awning { height:92px; }
+.registration-screen .awning-stripes { height:74px; }
+.registration-screen .logo { width:84px; height:84px; top:4px; }
+.registration-screen .nav { padding:2px 16px 6px; }
+.registration-screen .nav a { min-height:36px; font-size:13px; padding:6px 12px; }
+.registration-screen .game-header { margin:10px 16px 14px; }
+.registration-screen .game-header h1 { font-size:28px; margin-bottom:4px; }
+.registration-screen .game-header p { font-size:13px; }
+.registration-screen .zoo-panel { padding:18px 24px; }
+.registration-screen .zoo-panel h2 { font-size:24px; margin-bottom:8px; }
+.registration-screen .zoo-panel > p { font-size:13px; margin-bottom:12px; }
+.registration-screen .player-field { gap:4px; margin-bottom:10px; }
+.registration-screen .player-field input { padding:9px 12px; font-size:14px; }
+.registration-screen .player-note { font-size:11px; margin:8px 0; }
+.registration-screen .play-btn { min-height:40px; padding:9px 20px; margin-top:4px; }
+.registration-screen .zoo-footer { margin-top:auto; padding-top:12px; }
+.registration-screen .footer-copy { padding:10px 16px; }
+.registration-screen .brand { font-size:20px; margin:0 0 6px; }
+.registration-screen .footer-copy p:not(.brand) { font-size:12px; margin:0 0 6px; }
+.registration-screen .contact-links { font-size:12px; gap:6px 20px; }
+.registration-screen .awning-footer { height:44px; padding-top:8px; }
+.registration-screen .awning-footer .awning-stripes { height:36px; }
+@media(max-width:600px) {
+ .registration-screen .nav { gap:6px; padding-inline:12px; }
+ .registration-screen .nav a { font-size:11px; padding-inline:6px; }
+ .registration-screen .zoo-panel { padding:16px 18px; }
+}
+
+.registration-screen .awning { height:80px; }
+.registration-screen .awning-stripes { height:64px; }
+.registration-screen .logo { width:72px; height:72px; }
+.registration-screen .nav a { min-height:32px; }
+.registration-screen .game-header h1 { font-size:26px; line-height:1.2; }
+.registration-screen .game-header p { line-height:1.4; }
+.registration-screen .zoo-panel h2 { line-height:1.2; }
+.registration-screen .player-field label { line-height:1.3; }
+.registration-screen .player-field input { line-height:1.25; }
+.registration-screen .player-note { line-height:1.3; }
+.registration-screen .brand { font-size:18px; line-height:1.25; }
+.registration-screen .footer-copy p:not(.brand),.registration-screen .contact-links { line-height:1.3; }
+.registration-screen .awning-footer { height:36px; }
+.registration-screen .awning-footer .awning-stripes { height:28px; }
+
+/* Show all sixteen cards inside the visible game area. */
+.game-screen .awning { height:64px; }
+.game-screen .awning-stripes { height:48px; }
+.game-screen .logo { width:58px; height:58px; top:3px; }
+.game-screen .nav { padding:2px 12px 4px; gap:8px; }
+.game-screen .nav a { min-height:30px; padding:5px 10px; font-size:12px; }
+.game-screen .game-header { margin:6px 12px 8px; }
+.game-screen .game-header h1 { font-size:26px; line-height:1.2; margin:0; }
+.game-screen .game-header p { display:none; }
+.game-screen .game-main { gap:8px; }
+.game-screen .player-greeting { font-size:13px; line-height:1.4; }
+.game-screen .game-controls { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px 20px; padding:8px 12px; }
+.game-screen .game-stats { flex-direction:row; flex-wrap:wrap; gap:12px; margin:0; font-size:13px; }
+.game-screen .game-actions .restart-btn,.game-screen .game-over-btn { min-height:36px; padding:8px 14px; font-size:12px; }
+.game-screen .game-board { width:min(100%, calc(var(--board-available-height, 50dvh) * 0.75)); padding:clamp(6px,1vw,12px); }
+.game-screen .game-board[data-difficulty] { gap:clamp(4px,0.75vw,10px); }
+.game-screen .card-front,.game-screen .card-back { border-radius:8px; }
+@media(max-width:600px) {
+ .game-screen .nav a { font-size:10px; padding-inline:4px; }
+ .game-screen .player-greeting { font-size:12px; }
+}
+
+.game-screen .zoo-footer { margin-top:8px; padding-top:0; }
+.game-screen .footer-copy { padding-top:4px; }
+.game-screen .footer-copy .brand { margin-top:0; }
+
+
+/* Reserve a compact, fully visible footer beneath the board. */
+.game-screen .footer-copy { padding:4px 12px 8px; }
+.game-screen .footer-copy .brand { font-size:18px; line-height:1.2; margin:0 0 4px; }
+.game-screen .footer-copy p:not(.brand) { font-size:11px; line-height:1.3; margin:0 0 4px; }
+.game-screen .contact-links { font-size:11px; line-height:1.3; gap:4px 16px; }
+.game-screen .awning-footer { height:28px; padding-top:4px; }
+.game-screen .awning-footer .awning-stripes { height:24px; }

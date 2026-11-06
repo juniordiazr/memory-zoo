@@ -12,17 +12,17 @@
 .nav a.active{background:var(--mint);color:white;font-weight:700}
 .nav a.nav-cta{background:var(--ink);color:white}
 .nav a.nav-cta:hover{background:var(--mint)}
-.footer-copy{padding:60px;max-width:1440px;margin:auto}
+.footer-copy{padding:20px 24px;max-width:1440px;margin:auto;text-align:center}
 .brand{font-size:26px;margin-bottom:16px}
 .footer-copy p:not(.brand){font-size:14px}
-.contact-links{display:flex;gap:24px;flex-wrap:wrap;font-size:14px}
-.awning-footer{height:190px;padding-top:40px}
+.contact-links{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;font-size:14px}
+.awning-footer{height:162px;padding-top:12px}
 .awning-footer .awning-stripes span{border-radius:30px 30px 0 0}
 :root { --ink:#49372f; --pink:#edbfc5; --mint:#b1dbd9; --softmint:#e9f3ee; }
 body { background:#fff; color:var(--ink); }
 .memory-game { padding:0; background:#fff; color:var(--ink); font-family:Inter,Arial,sans-serif; }
 .zoo-header,.zoo-footer { width:100%; }
-.nav { grid-template-columns:repeat(3,minmax(0,1fr)); max-width:900px; gap:24px; }
+.nav { grid-template-columns:repeat(3,minmax(0,1fr)); width:100%; max-width:560px; gap:8px; }
 .nav a.active { color:var(--ink); }
 .game-header { color:var(--ink); margin:40px 24px 28px; }
 .game-header h1 { font-family:Lora,Georgia,serif; font-weight:400; text-shadow:none; }
@@ -36,7 +36,7 @@ body { background:#fff; color:var(--ink); }
 .card-front { background:var(--pink); color:var(--ink); }
 .card-front,.card-back { box-shadow:0 3px 8px rgba(73,55,47,.12); }
 .memory-card:focus { box-shadow:0 0 0 3px var(--ink); }
-.zoo-footer { margin-top:auto; padding-top:48px; }
+.zoo-footer { margin-top:24px; padding-top:0; }
 .brand { font-family:Lora,Georgia,serif; font-weight:400; }
 .contact-links a { color:inherit; }
 @media(max-width:600px) {
@@ -48,16 +48,16 @@ body { background:#fff; color:var(--ink); }
  .nav a { font-size:11px; padding:8px 6px; }
  .game-header { margin-top:28px; }
  .game-main { padding:0 12px; }
- .footer-copy { padding:36px 22px; }
+ .footer-copy { padding:16px 22px; }
  .contact-links { flex-direction:column; gap:12px; }
- .awning-footer { height:140px; padding-top:40px; }
+ .awning-footer { height:112px; padding-top:12px; }
  .awning-footer .awning-stripes span { border-radius:20px 20px 0 0; }
 }
 
 
 /* Fit the portrait board into the available viewport; allow scrolling on short screens. */
 .game-board {
-  width: min(100%, calc(var(--board-available-height, 80dvh) * 0.75));
+  width: min(100%, max(600px, calc(var(--board-available-height, 800px) * 0.75)));
   aspect-ratio: 3 / 4;
   padding: clamp(8px, 1.5vw, 24px);
   transition: transform 0.3s ease, opacity 0.3s ease;
